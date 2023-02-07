@@ -42,6 +42,7 @@ class WordServiceIntegrationTest {
         assertTrue(result);
     }
 
+//    iets
     @Test
     @DisplayName("word does not exist")
     void wordDoesNotExist() {
