@@ -46,8 +46,7 @@ class WordServiceIntegrationTest {
     @DisplayName("word does not exist")
     void wordDoesNotExist() {
         boolean result = this.service.wordExists("goner");
-//        kaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
