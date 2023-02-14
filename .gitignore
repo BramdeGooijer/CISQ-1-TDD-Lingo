@@ -19,6 +19,10 @@ target/
 *.iml
 *.ipr
 
+### Docs ###
+/docs/VP_Models/*.lck
+/docs/VP_Models/*.bak*
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
