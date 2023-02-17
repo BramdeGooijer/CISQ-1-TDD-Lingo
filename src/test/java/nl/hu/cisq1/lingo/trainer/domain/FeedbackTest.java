@@ -61,8 +61,8 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("two feedbacks are not the same")
-    void differentFeedback() {
+    @DisplayName("two feedback attempts are not the same")
+    void differentFeedbackAttempt() {
         // Given
         var feedbackA = new Feedback(
                 "waard",
@@ -72,6 +72,48 @@ class FeedbackTest {
         var feedbackB = new Feedback(
                 "woord",
                 List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+        );
+
+        // When
+        boolean result = feedbackA.equals(feedbackB);
+
+        // Then
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("two feedback marks are not the same")
+    void differentFeedbackMark() {
+        // Given
+        var feedbackA = new Feedback(
+                "woord",
+                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+        );
+
+        var feedbackB = new Feedback(
+                "woord",
+                List.of(ABSENT, CORRECT, CORRECT, CORRECT, CORRECT)
+        );
+
+        // When
+        boolean result = feedbackA.equals(feedbackB);
+
+        // Then
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("two feedback marks and attempts are not the same")
+    void differentFeedbackMarkAndAttempt() {
+        // Given
+        var feedbackA = new Feedback(
+                "waard",
+                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+        );
+
+        var feedbackB = new Feedback(
+                "woord",
+                List.of(ABSENT, CORRECT, CORRECT, CORRECT, CORRECT)
         );
 
         // When
