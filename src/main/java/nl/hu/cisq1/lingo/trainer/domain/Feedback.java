@@ -34,4 +34,22 @@ public class Feedback {
     public int hashCode() {
         return Objects.hash(attempt, marks);
     }
+
+    public String giveHint(String previousHint) {
+        String result = "";
+
+        for (int i = 0; i < this.marks.size(); i++) {
+            char letter = this.attempt.charAt(i);
+            Mark mark = this.marks.get(i);
+
+
+            if (mark.equals(CORRECT)) {
+                result += letter;
+            } else {
+                result += previousHint.charAt(i);
+            }
+        }
+
+        return result;
+    }
 }

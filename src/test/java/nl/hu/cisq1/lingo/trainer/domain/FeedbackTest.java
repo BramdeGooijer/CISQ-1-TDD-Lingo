@@ -122,4 +122,42 @@ class FeedbackTest {
         // Then
         assertFalse(result);
     }
+
+    @Test
+    @DisplayName("a hint always contains the first letter")
+    void hintFirstLetter() {
+        // word to guess: beest
+        // attempt      : woord
+        Feedback feedback = new Feedback(
+                "woord",
+                List.of(ABSENT, ABSENT, ABSENT, ABSENT, ABSENT)
+        );
+
+        String previousHint = "b....";
+
+        String nextHint = feedback.giveHint(previousHint);
+
+        String expectedHint = "b....";
+
+        assertEquals(expectedHint, nextHint);
+    }
+
+    @Test
+    @DisplayName("a hint always contains correct letters")
+    void hintForCorrectLetters() {
+        // word to guess: beest
+        // attempt      : plaat
+        Feedback feedback = new Feedback(
+                "plaat",
+                List.of(ABSENT, ABSENT, ABSENT, ABSENT, CORRECT)
+        );
+
+        String previousHint = "b....";
+
+        String nextHint = feedback.giveHint(previousHint);
+
+        String expectedHint = "b...t";
+
+        assertEquals(expectedHint, nextHint);
+    }
 }
