@@ -1,17 +1,13 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.Exceptions.attemptMarkLengthException;
-import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import static nl.hu.cisq1.lingo.trainer.domain.enums.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
@@ -27,7 +23,7 @@ class FeedbackTest {
 
         Feedback feedback = new Feedback(
                 "woord",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "woord"
         );
 
         assertTrue(feedback.isWordGuessed());
@@ -37,8 +33,8 @@ class FeedbackTest {
     @DisplayName("word is not guessed if not all letters are correct")
     void wordIsNotGuessed(){
         Feedback feedback = new Feedback(
-                "woord",
-                List.of(ABSENT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "beest",
+                "woord"
         );
 
         assertFalse(feedback.isWordGuessed());
@@ -49,13 +45,13 @@ class FeedbackTest {
     void sameFeedback() {
         // Given
         var feedbackA = new Feedback(
-                "woord",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "beest",
+                "woord"
         );
 
         var feedbackB = new Feedback(
-                "woord",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "beest",
+                "woord"
         );
 
         // When
@@ -70,55 +66,13 @@ class FeedbackTest {
     void differentFeedbackAttempt() {
         // Given
         var feedbackA = new Feedback(
-                "waard",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "beest",
+                "waard"
         );
 
         var feedbackB = new Feedback(
-                "woord",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
-        );
-
-        // When
-        boolean result = feedbackA.equals(feedbackB);
-
-        // Then
-        assertFalse(result);
-    }
-
-    @Test
-    @DisplayName("two feedback marks are not the same")
-    void differentFeedbackMark() {
-        // Given
-        var feedbackA = new Feedback(
-                "woord",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
-        );
-
-        var feedbackB = new Feedback(
-                "woord",
-                List.of(ABSENT, CORRECT, CORRECT, CORRECT, CORRECT)
-        );
-
-        // When
-        boolean result = feedbackA.equals(feedbackB);
-
-        // Then
-        assertFalse(result);
-    }
-
-    @Test
-    @DisplayName("two feedback marks and attempts are not the same")
-    void differentFeedbackMarkAndAttempt() {
-        // Given
-        var feedbackA = new Feedback(
-                "waard",
-                List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT)
-        );
-
-        var feedbackB = new Feedback(
-                "woord",
-                List.of(ABSENT, CORRECT, CORRECT, CORRECT, CORRECT)
+                "beest",
+                "woord"
         );
 
         // When
@@ -130,12 +84,12 @@ class FeedbackTest {
 
     @Test
     @DisplayName("a hint always contains the first letter")
-    void hintFirstLetter() throws attemptMarkLengthException {
+    void hintFirstLetter() {
         // word to guess: beest
         // attempt      : woord
         Feedback feedback = new Feedback(
-                "woord",
-                List.of(ABSENT, ABSENT, ABSENT, ABSENT, ABSENT)
+                "beest",
+                "woord"
         );
 
         String previousHint = "b....";
@@ -149,12 +103,12 @@ class FeedbackTest {
 
     @Test
     @DisplayName("a hint always contains correct letters after a guess")
-    void hintForCorrectLetters() throws attemptMarkLengthException {
+    void hintForCorrectLetters() {
         // word to guess: beest
         // attempt      : plaat
         Feedback feedback = new Feedback(
-                "plaat",
-                List.of(ABSENT, ABSENT, ABSENT, ABSENT, CORRECT)
+                "beest",
+                "plaat"
         );
 
         String previousHint = "b....";
@@ -169,23 +123,23 @@ class FeedbackTest {
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("getting the correct hint for guesses")
-    void correctHintForGuesses(String previousHint, String attempt, List<Mark> marks, String expectedHint) throws attemptMarkLengthException {
-        // make feedback with the given data
-        Feedback feedback = new Feedback(attempt, marks);
+    void correctHintForGuesses(String wordToGuess, String previousHint, String attempt, String expectedHint) {
+        // make feedback with the wordToGuess and the attempt, it generates feedback inside the constructor
+        Feedback feedback = new Feedback(wordToGuess, attempt);
 
         String nextHint = feedback.giveHint(previousHint);
+
 
         assertEquals(nextHint, expectedHint);
     }
 
     public static Stream<Arguments> provideHintExamples() {
         return Stream.of(
-                // word to guess is groep
-                Arguments.of("g....", "gegroet", List.of(INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID), "g...."),
-                Arguments.of("g....", "gerst", List.of(CORRECT, PRESENT, PRESENT, ABSENT, ABSENT), "g...."),
-                Arguments.of("g....", "genen", List.of(CORRECT, ABSENT, ABSENT, CORRECT, ABSENT), "g..e."),
-                Arguments.of("g..e.", "gedoe", List.of(CORRECT, PRESENT, ABSENT, PRESENT, ABSENT), "g..e."),
-                Arguments.of("g..e.", "groep", List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), "groep")
+                Arguments.of("groep", "g....", "gegroet", "g...."),
+                Arguments.of("groep", "g....", "gerst", "g...."),
+                Arguments.of("groep", "g....", "genen", "g..e."),
+                Arguments.of("groep", "g..e.", "gedoe", "g..e."),
+                Arguments.of("groep", "g..e.", "groep", "groep")
         );
     }
 }

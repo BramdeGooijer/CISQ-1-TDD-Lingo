@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.Exceptions.attemptMarkLengthException;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ public class Feedback {
     private String attempt;
     private List<Mark> marks;
 
-    public Feedback(String attempt, List<Mark> marks) {
+    public Feedback(String wordToGuess, String attempt) {
         this.attempt = attempt;
-        this.marks = marks;
+        this.marks = this.generate(wordToGuess, attempt);
     }
 
     public boolean isWordGuessed() {
@@ -62,15 +61,11 @@ public class Feedback {
         return marks;
     }
 
-    public String giveHint(String previousHint) throws attemptMarkLengthException {
+    public String giveHint(String previousHint) {
         String result = "";
 
         if (this.attempt.length() > previousHint.length()) {
             return previousHint;
-        }
-
-        if (this.attempt.length() != this.marks.size()) {
-            throw new attemptMarkLengthException("De attempt en de mark hebben niet dezelfde lengte");
         }
 
         for (int i = 0; i < this.marks.size(); i++) {

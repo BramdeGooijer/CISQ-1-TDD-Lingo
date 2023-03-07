@@ -11,8 +11,6 @@ import java.util.List;
 public class LingoApplication {
 //    Test de cache
     public static void main(String[] args) {
-//        SpringApplication.run(LingoApplication.class, args);
-        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        System.out.println(feedback.hashCode());
+        SpringApplication.run(LingoApplication.class, args);
     }
 }
