@@ -13,4 +13,12 @@ class RoundTest {
 
         assertEquals("w....", round.getHint());
     }
+
+    @Test
+    @DisplayName("on round creation the amountOfGuesses should be 0")
+    void zeroAmountOfGuesses() {
+        Round round = new Round("woord");
+
+        assertEquals(0, round.getAmountOfGuesses());
+    }
 }

@@ -33,4 +33,8 @@ public class Round {
     public String getHint() {
         return this.hint;
     }
+
+    public int getAmountOfGuesses() {
+        return this.amountOfGuesses;
+    }
 }
