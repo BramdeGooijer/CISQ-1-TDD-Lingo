@@ -37,4 +37,8 @@ public class Round {
     public int getAmountOfGuesses() {
         return this.amountOfGuesses;
     }
+
+    public Status getRoundState() {
+        return roundState;
+    }
 }

@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static nl.hu.cisq1.lingo.trainer.domain.enums.Status.ACTIVE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
@@ -20,5 +21,13 @@ class RoundTest {
         Round round = new Round("woord");
 
         assertEquals(0, round.getAmountOfGuesses());
+    }
+
+    @Test
+    @DisplayName("on round creation the roundState should be ACTIVE")
+    void activeRoundState() {
+        Round round = new Round("woord");
+
+        assertEquals(ACTIVE, round.getRoundState());
     }
 }
