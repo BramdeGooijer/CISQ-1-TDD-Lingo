@@ -43,6 +43,7 @@ public class Feedback {
             for (int i = 0; i < attempt.length(); i++) {
                 marks.add(INVALID);
             }
+            return marks;
         }
 
         for (int i = 0; i < wordToGuess.length(); i++) {
@@ -81,5 +82,9 @@ public class Feedback {
         }
 
         return result;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
     }
 }

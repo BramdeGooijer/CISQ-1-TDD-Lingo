@@ -6,11 +6,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
+import static nl.hu.cisq1.lingo.trainer.domain.enums.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
+    @Test
+    @DisplayName("check if hashcodes are equal")
+    void hashcodeIsEqual() {
+        Feedback feedbackA = new Feedback("woord", "woord");
+        Feedback feedbackB = new Feedback("woord", "woord");
+
+        assertEquals(feedbackA.hashCode(), feedbackB.hashCode());
+    }
+
     @Test
     @DisplayName("word is guessed if all letters are correct")
     void wordIsGuessed(){
@@ -141,5 +152,37 @@ class FeedbackTest {
                 Arguments.of("groep", "g..e.", "gedoe", "g..e."),
                 Arguments.of("groep", "g..e.", "groep", "groep")
         );
+    }
+
+    @Test
+    @DisplayName("generating marks for a correct word")
+    void generatingMarksForCorrectWord() {
+        Feedback feedback = new Feedback("woord", "woord");
+
+        assertEquals(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), feedback.getMarks());
+    }
+
+    @Test
+    @DisplayName("generating marks for an incorrect word")
+    void genaratingMarksForIncorrectWord() {
+        Feedback feedback = new Feedback("woord", "chase");
+
+        assertEquals(List.of(ABSENT, ABSENT, ABSENT, ABSENT, ABSENT), feedback.getMarks());
+    }
+
+    @Test
+    @DisplayName("generating marks for a word with letters present")
+    void generatingMarksForPresentLettersInWord() {
+        Feedback feedback = new Feedback("aaaab", "baaaa");
+
+        assertEquals(List.of(PRESENT, CORRECT, CORRECT, CORRECT, PRESENT), feedback.getMarks());
+    }
+
+    @Test
+    @DisplayName("generating marks for a word that is too long (INVALID)")
+    void generatingMarksForLongWord() {
+        Feedback feedback = new Feedback("kikker", "kikkerdril");
+
+        assertEquals(List.of(INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID), feedback.getMarks());
     }
 }
