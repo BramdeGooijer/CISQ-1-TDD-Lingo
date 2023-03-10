@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -171,7 +172,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("generating marks for a word with letters present")
+    @DisplayName("generating marks for a word with letters present not yet found")
     void generatingMarksForPresentLettersInWord() {
         Feedback feedback = new Feedback("aaaab", "baaaa");
 
@@ -179,10 +180,37 @@ class FeedbackTest {
     }
 
     @Test
+    @DisplayName("generating marks for letters present already found")
+    void generatingMarksForSameLetter() {
+        Feedback feedback = new Feedback("groep", "genen");
+
+        assertEquals(List.of(CORRECT, ABSENT, ABSENT, CORRECT, ABSENT), feedback.getMarks());
+    }
+
+    @Test
     @DisplayName("generating marks for a word that is too long (INVALID)")
     void generatingMarksForLongWord() {
         Feedback feedback = new Feedback("kikker", "kikkerdril");
 
-        assertEquals(List.of(INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID, INVALID), feedback.getMarks());
+        assertEquals(List.of(INVALID, INVALID, INVALID, INVALID, INVALID, INVALID), feedback.getMarks());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideWordExamples")
+    @DisplayName("generating marks for whole lingo series")
+    void generatingMarksForWordSeries(String wordToGuess, String poging, List<Mark> marks) {
+        Feedback feedback = new Feedback(wordToGuess, poging);
+
+        assertEquals(marks, feedback.getMarks());
+    }
+
+    public static Stream<Arguments> provideWordExamples() {
+        return Stream.of(
+                Arguments.of("groep", "gegroet", List.of(INVALID, INVALID, INVALID, INVALID, INVALID)),
+                Arguments.of("groep", "gerst", List.of(CORRECT, PRESENT, PRESENT, ABSENT, ABSENT)),
+                Arguments.of("groep", "genen", List.of(CORRECT, ABSENT, ABSENT, CORRECT, ABSENT)),
+                Arguments.of("groep", "gedoe", List.of(CORRECT, PRESENT, ABSENT, PRESENT, ABSENT)),
+                Arguments.of("groep", "groep", List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT))
+        );
     }
 }
