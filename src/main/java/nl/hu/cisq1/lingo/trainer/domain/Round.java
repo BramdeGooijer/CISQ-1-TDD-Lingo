@@ -30,6 +30,10 @@ public class Round {
         return hint;
     }
 
+    public Feedback guessWord(String attempt) {
+        return null;
+    }
+
     public String getHint() {
         return this.hint;
     }
