@@ -48,7 +48,7 @@ public class Round {
             this.roundState = WON;
         }
 
-        if (this.getAmountOfGuesses() >= 5) {
+        if (this.getAmountOfGuesses() >= 5 && !feedback.isWordGuessed()) {
             this.roundState = LOST;
         }
     }
