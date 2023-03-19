@@ -19,9 +19,9 @@ jobs:
       - name: Save repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
-          - uses: actions/upload-artifact@v3
-            with:
-              name: ${{ env.REPOSITORY_NAME }}-reports
-              path: |
-                target/site/jacoco/
-                target/pit-reports/
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.REPOSITORY_NAME }}-reports
+          path: |
+            target/site/jacoco/
+            target/pit-reports/
