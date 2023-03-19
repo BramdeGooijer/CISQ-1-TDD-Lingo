@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.ClosedRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameAlreadyStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameNotStartedException;
+import nl.hu.cisq1.lingo.trainer.domain.exceptions.RoundStillActiveException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -170,4 +171,46 @@ class GameTest {
                 Arguments.of(4, 5)
         );
     }
+
+    @Test
+    @DisplayName("calling startRound starts a new round")
+    void callingStartRoundStartsRound() {
+        Game game = new Game();
+
+        game.startGame("woord");
+        game.guessWord("woord");
+
+        Round newRound = game.startRound("autos");
+
+        assertEquals(2, game.getAllRounds().size());
+        assertEquals(game.getCurrentRound(), newRound);
+    }
+
+    @Test
+    @DisplayName("reject startRound when game not active")
+    void rejectStartRoundWhenGameNotActive() {
+        Game game = new Game();
+
+        assertThrows(
+                GameNotStartedException.class,
+                () -> game.startRound("woord")
+        );
+    }
+
+    @Test
+    @DisplayName("reject startRound when round is still active")
+    void rejectStartRoundWhenRoundStillActive() {
+        Game game = new Game();
+
+        game.startGame("woord");
+        game.guessWord("woord");
+
+        game.startRound("waard");
+
+        assertThrows(
+                RoundStillActiveException.class,
+                () -> game.startRound("woest")
+        );
+    }
+
 }

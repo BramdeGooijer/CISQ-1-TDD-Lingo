@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Status;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameAlreadyStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameNotStartedException;
+import nl.hu.cisq1.lingo.trainer.domain.exceptions.RoundStillActiveException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,25 @@ public class Game {
         }
     }
 
+    public Round startRound(String word) {
+        if (currentRound == null) {
+            throw new GameNotStartedException("De game is nog niet begonnen!");
+        }
+
+        if (currentRound.getRoundState() == ACTIVE) {
+            throw new RoundStillActiveException("De huidige ronde is nog niet afgelopen!");
+        }
+
+        Round round = new Round(word);
+        this.allRounds.add(round);
+        this.currentRound = round;
+
+        return round;
+    }
+
     public void guessWord(String attempt) {
         if (currentRound == null) {
-            throw new GameNotStartedException("De game is nog niet begonnen");
+            throw new GameNotStartedException("De game is nog niet begonnen!");
         }
 
         this.currentRound.guessWord(attempt);
