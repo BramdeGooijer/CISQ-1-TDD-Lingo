@@ -24,6 +24,18 @@ class FeedbackTest {
     }
 
     @Test
+    @DisplayName("testing equals function")
+    void testEquals() {
+        Feedback feedbackA = new Feedback("woord", "woord");
+        Feedback feedbackB = new Feedback("woord", "woord");
+
+        assertTrue(feedbackA.equals(feedbackB));
+        assertTrue(feedbackA.equals(feedbackA));
+        assertFalse(feedbackA.equals(null));
+        assertFalse(feedbackA.equals(new Game()));
+    }
+
+    @Test
     @DisplayName("word is guessed if all letters are correct")
     void wordIsGuessed(){
         /**
