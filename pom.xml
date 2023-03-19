@@ -132,6 +132,25 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.10.4</version>
+                <configuration>
+                    <jvmArgs>
+                        <jvmArg>-Dspring.profiles.active=ci</jvmArg>
+                    </jvmArgs>
+                    <mutationThreshold>90</mutationThreshold>
+                    <timestampedReports>false</timestampedReports>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.1.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 </project>
