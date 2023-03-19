@@ -1,14 +1,27 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import jakarta.persistence.*;
+import nl.hu.cisq1.lingo.trainer.domain.converters.MarksConverter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 
 import java.util.*;
 
 import static nl.hu.cisq1.lingo.trainer.domain.enums.Mark.*;
 
+@Entity
 public class Feedback {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String attempt;
+
+    @Convert(converter = MarksConverter.class)
     private List<Mark> marks;
+
+    public Feedback() {
+
+    }
 
     public Feedback(String wordToGuess, String attempt) {
         this.attempt = attempt;

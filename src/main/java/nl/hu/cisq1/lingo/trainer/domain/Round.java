@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import jakarta.persistence.*;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.ClosedRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Status;
 
@@ -7,11 +8,25 @@ import java.util.ArrayList;
 
 import static nl.hu.cisq1.lingo.trainer.domain.enums.Status.*;
 
+@Entity
 public class Round {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String word;
+
     private String hint;
+
+    @Enumerated(EnumType.STRING)
     private Status roundState;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<Feedback> guesses = new ArrayList<>();
+
+    public Round() {
+
+    }
 
     public Round(String word) {
         this.word = word;

@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import jakarta.persistence.*;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Status;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameAlreadyStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameNotStartedException;
@@ -10,10 +11,21 @@ import java.util.List;
 
 import static nl.hu.cisq1.lingo.trainer.domain.enums.Status.*;
 
+@Entity
 public class Game {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private int score;
+
+    @Enumerated(EnumType.STRING)
     private Status gameState;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Round> allRounds = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Round currentRound;
 
     public Game() {
