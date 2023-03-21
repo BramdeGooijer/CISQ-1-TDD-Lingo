@@ -79,4 +79,12 @@ public class Round {
     public Status getRoundState() {
         return roundState;
     }
+
+    public ArrayList<Feedback> getGuesses() {
+        return guesses;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

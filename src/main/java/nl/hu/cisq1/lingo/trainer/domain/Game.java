@@ -86,4 +86,8 @@ public class Game {
     public Round getCurrentRound() {
         return currentRound;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
