@@ -3,6 +3,8 @@ package nl.hu.cisq1.lingo.trainer.data;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GameRepository extends JpaRepository<Game, Long> {
+import java.util.Optional;
 
+public interface GameRepository extends JpaRepository<Game, Long> {
+    Optional<Game> findById(Long id);
 }
