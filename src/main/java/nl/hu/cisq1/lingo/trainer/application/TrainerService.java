@@ -4,6 +4,7 @@ import nl.hu.cisq1.lingo.trainer.application.dto.GameDTO;
 import nl.hu.cisq1.lingo.trainer.application.exceptions.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.GameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameAlreadyStartedException;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,7 @@ public class TrainerService {
         gameDTO.hint = game.getCurrentRound().getHint();
 
         if (game.getCurrentRound().getGuesses().size() > 0) {
-            gameDTO.marks = game.getCurrentRound().getGuesses().get(-1).getMarks();
+            gameDTO.marks = game.getCurrentRound().getGuesses().get(game.getCurrentRound().getAmountOfGuesses() - 1).getMarks();
         }
 
         return gameDTO;
