@@ -14,6 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
     @Test
+    @DisplayName("creating round through empty constructor")
+    void creatingRoundThroughEmptyConstructor() {
+        Round round = new Round();
+
+        assertEquals(Round.class, round.getClass());
+    }
+
+    @Test
     @DisplayName("on round creation the first letter of hint should be shown")
     void hintFirstLetter() {
         Round round = new Round("woord");

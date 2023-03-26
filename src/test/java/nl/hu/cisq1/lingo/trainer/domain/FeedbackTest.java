@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +15,20 @@ import static nl.hu.cisq1.lingo.trainer.domain.enums.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
+    @Test
+    @DisplayName("EqualsVerifier")
+    public void equalsContract() {
+        EqualsVerifier.simple().forClass(Feedback.class).verify();
+    }
+
+    @Test
+    @DisplayName("creating feedback through empty constructor")
+    void creatingFeedbackThroughtEmptyConstructor() {
+        Feedback feedback = new Feedback();
+
+        assertEquals(Feedback.class, feedback.getClass());
+    }
+
     @Test
     @DisplayName("check if hashcodes are equal")
     void hashcodeIsEqual() {
