@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.trainer.application.exceptions.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.GameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameNotStartedException;
+import nl.hu.cisq1.lingo.trainer.domain.exceptions.RoundStillActiveException;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -141,6 +142,42 @@ class TrainerServiceTest {
                 () -> trainerService.startNewRound(1L));
     }
 
+    @Test
+    @DisplayName("starting round when game not started")
+    void startingRoundWhenGameNotStarted() {
+        WordService wordService = mock(WordService.class);
+        GameRepository gameRepository = mock(GameRepository.class);
+
+        when(wordService.provideRandomWord(anyInt())).thenReturn("appel");
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(new Game()));
+
+        TrainerService trainerService = new TrainerService(wordService, gameRepository);
+
+        assertThrows(
+                GameNotStartedException.class,
+                () -> trainerService.startNewRound(1L)
+        );
+    }
+
+    @Test
+    @DisplayName("starting round when round still active")
+    void startingRoundWhenRoundStillActive() {
+        WordService wordService = mock(WordService.class);
+        GameRepository gameRepository = mock(GameRepository.class);
+
+        Game game = new Game();
+        game.startGame("woord");
+
+        when(wordService.provideRandomWord(anyInt())).thenReturn("appel");
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
+
+        TrainerService trainerService = new TrainerService(wordService, gameRepository);
+
+        assertThrows(
+                RoundStillActiveException.class,
+                () -> trainerService.startNewRound(1L));
+    }
+
     @ParameterizedTest
     @MethodSource("provideGameInfo")
     @DisplayName("getting word with correct length through rounds")
@@ -182,5 +219,18 @@ class TrainerServiceTest {
                 Arguments.of(6, 7, "kikkers"),
                 Arguments.of(7, 5, "appel")
         );
+    }
+
+    @Test
+    @DisplayName("getGameInfo gives back GameDTO")
+    void getGameInfoReturnsGameDTO() {
+        WordService wordService = mock(WordService.class);
+        GameRepository gameRepository = mock(GameRepository.class);
+
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(new Game()));
+
+        TrainerService trainerService = new TrainerService(wordService, gameRepository);
+
+        assertEquals(GameDTO.class, trainerService.getGameInfo(1L).getClass());
     }
 }
