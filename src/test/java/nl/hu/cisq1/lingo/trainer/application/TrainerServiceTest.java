@@ -233,4 +233,16 @@ class TrainerServiceTest {
 
         assertEquals(GameDTO.class, trainerService.getGameInfo(1L).getClass());
     }
+
+    @Test
+    @DisplayName("getGameInfoWhenGameDoesNotExist")
+    void getGameInfoWhenGameDoesNotExist() {
+        WordService wordService = mock(WordService.class);
+        GameRepository gameRepository = mock(GameRepository.class);
+
+        TrainerService trainerService = new TrainerService(wordService, gameRepository);
+
+        assertThrows(GameNotFoundException.class,
+                () -> trainerService.getGameInfo(1L));
+    }
 }
