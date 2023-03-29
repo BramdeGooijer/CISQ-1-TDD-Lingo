@@ -1,17 +1,15 @@
 package nl.hu.cisq1.lingo.trainer.presentation;
 
-import jakarta.persistence.GeneratedValue;
+import jakarta.websocket.server.PathParam;
 import nl.hu.cisq1.lingo.trainer.application.TrainerService;
 import nl.hu.cisq1.lingo.trainer.application.dto.GameDTO;
 import nl.hu.cisq1.lingo.trainer.application.exceptions.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.ClosedRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.GameNotStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exceptions.RoundStillActiveException;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.GameRequestDTO;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -23,10 +21,10 @@ public class TrainerController {
         this.trainerService = trainerService;
     }
 
-    @GetMapping("/game")
-    public GameDTO getGameInfo(Long gameId) {
+    @GetMapping("/game/{id}")
+    public GameDTO getGameInfo(@PathVariable Long id) {
         try {
-            return trainerService.getGameInfo(gameId);
+            return trainerService.getGameInfo(id);
         } catch (GameNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -41,9 +39,9 @@ public class TrainerController {
     }
 
     @PostMapping("/guess")
-    public GameDTO guessWord(Long gameId, String attempt) {
+    public GameDTO guessWord(@RequestBody GameRequestDTO gameRequestDTO) {
         try {
-            return trainerService.guessWord(gameId, attempt);
+            return trainerService.guessWord(gameRequestDTO.gameId, gameRequestDTO.attempt);
         } catch (GameNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -57,10 +55,10 @@ public class TrainerController {
         }
     }
 
-    @PostMapping("/round")
-    public GameDTO startNewRound(Long gameId) {
+    @PostMapping("/round/{id}")
+    public GameDTO startNewRound(@PathVariable Long id) {
         try {
-            return trainerService.startNewRound(gameId);
+            return trainerService.startNewRound(id);
         } catch (GameNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,

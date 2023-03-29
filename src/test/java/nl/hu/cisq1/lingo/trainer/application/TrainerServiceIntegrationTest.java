@@ -15,7 +15,7 @@ public class TrainerServiceIntegrationTest {
     @Autowired
     private TrainerService trainerService;
 
-//    @Test
+    @Test
     @DisplayName("geslaagd raden van een 5 letter woord")
     void geslaagdRadenVanEenVijfLetterWoord() {
         GameDTO gameDTO = trainerService.startNewGame();

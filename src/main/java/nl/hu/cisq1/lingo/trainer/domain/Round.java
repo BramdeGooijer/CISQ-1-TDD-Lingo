@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.trainer.domain.exceptions.ClosedRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static nl.hu.cisq1.lingo.trainer.domain.enums.Status.*;
 
@@ -22,7 +23,7 @@ public class Round {
     private Status roundState;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Feedback> guesses = new ArrayList<>();
+    private List<Feedback> guesses = new ArrayList<>();
 
     public Round() {
 
@@ -80,7 +81,7 @@ public class Round {
         return roundState;
     }
 
-    public ArrayList<Feedback> getGuesses() {
+    public List<Feedback> getGuesses() {
         return guesses;
     }
 

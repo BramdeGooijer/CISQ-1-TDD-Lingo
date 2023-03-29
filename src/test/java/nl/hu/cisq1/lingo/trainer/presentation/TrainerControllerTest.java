@@ -4,6 +4,7 @@ import nl.hu.cisq1.lingo.trainer.application.TrainerService;
 import nl.hu.cisq1.lingo.trainer.application.dto.GameDTO;
 import nl.hu.cisq1.lingo.trainer.data.GameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.GameRequestDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,8 +80,11 @@ class TrainerControllerTest {
         TrainerService trainerService = new TrainerService(wordService, gameRepository);
         TrainerController trainerController = new TrainerController(trainerService);
 
+        GameRequestDTO gameRequestDTO = new GameRequestDTO();
+        gameRequestDTO.gameId = 1L;
+        gameRequestDTO.attempt = "appel";
 
-        assertEquals(GameDTO.class, trainerController.guessWord(1L, "appel").getClass());
+        assertEquals(GameDTO.class, trainerController.guessWord(gameRequestDTO).getClass());
     }
 
     @Test
@@ -94,9 +98,13 @@ class TrainerControllerTest {
         TrainerService trainerService = new TrainerService(wordService, gameRepository);
         TrainerController trainerController = new TrainerController(trainerService);
 
+        GameRequestDTO gameRequestDTO = new GameRequestDTO();
+        gameRequestDTO.gameId = 1L;
+        gameRequestDTO.attempt = "appel";
+
         assertThrows(
                 ResponseStatusException.class,
-                () -> trainerController.guessWord(1L, "appel")
+                () -> trainerController.guessWord(gameRequestDTO)
         );
     }
 
@@ -114,9 +122,13 @@ class TrainerControllerTest {
         TrainerService trainerService = new TrainerService(wordService, gameRepository);
         TrainerController trainerController = new TrainerController(trainerService);
 
+        GameRequestDTO gameRequestDTO = new GameRequestDTO();
+        gameRequestDTO.gameId = 1L;
+        gameRequestDTO.attempt = "appel";
+
         assertThrows(
                 ResponseStatusException.class,
-                () -> trainerController.guessWord(1L, "appel")
+                () -> trainerController.guessWord(gameRequestDTO)
         );
     }
 
@@ -136,9 +148,13 @@ class TrainerControllerTest {
         TrainerService trainerService = new TrainerService(wordService, gameRepository);
         TrainerController trainerController = new TrainerController(trainerService);
 
+        GameRequestDTO gameRequestDTO = new GameRequestDTO();
+        gameRequestDTO.gameId = 1L;
+        gameRequestDTO.attempt = "appel";
+
         assertThrows(
                 ResponseStatusException.class,
-                () -> trainerController.guessWord(1L, "appel")
+                () -> trainerController.guessWord(gameRequestDTO)
         );
     }
 
