@@ -22,7 +22,7 @@ public class Round {
     @Enumerated(EnumType.STRING)
     private Status roundState;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Feedback> guesses = new ArrayList<>();
 
     public Round() {

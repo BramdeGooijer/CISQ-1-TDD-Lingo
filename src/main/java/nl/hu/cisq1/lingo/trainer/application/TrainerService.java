@@ -68,6 +68,7 @@ public class TrainerService {
 
         if (game.getCurrentRound() != null) {
             gameDTO.currentRoundId = game.getCurrentRound().getId();
+            gameDTO.roundState = game.getCurrentRound().getRoundState();
             gameDTO.hint = game.getCurrentRound().getHint();
 
             if (game.getCurrentRound().getGuesses().size() > 0) {

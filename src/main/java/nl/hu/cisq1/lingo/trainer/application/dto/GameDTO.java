@@ -11,6 +11,7 @@ public class GameDTO {
     public Status gameState;
 
     public Long currentRoundId;
+    public Status roundState;
     public String hint;
     public List<Mark> marks;
 }
