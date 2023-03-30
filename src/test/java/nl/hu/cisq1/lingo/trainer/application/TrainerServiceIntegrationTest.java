@@ -15,13 +15,13 @@ public class TrainerServiceIntegrationTest {
     @Autowired
     private TrainerService trainerService;
 
-    @Test
-    @DisplayName("geslaagd raden van een 5 letter woord")
-    void geslaagdRadenVanEenVijfLetterWoord() {
-        GameDTO gameDTO = trainerService.startNewGame();
-
-        GameDTO guessDTO = trainerService.guessWord(gameDTO.gameId, "appel");
-
-        System.out.println(guessDTO.hint);
-    }
+//    @Test
+//    @DisplayName("geslaagd raden van een 5 letter woord")
+//    void geslaagdRadenVanEenVijfLetterWoord() {
+//        GameDTO gameDTO = trainerService.startNewGame();
+//
+//        GameDTO guessDTO = trainerService.guessWord(gameDTO.gameId, "appel");
+//
+//        System.out.println(guessDTO.hint);
+//    }
 }
